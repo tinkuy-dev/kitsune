@@ -92,25 +92,31 @@ def ask(
 @cli.command()
 def status():
     """Show Kitsune status."""
+    import platform
+
     import httpx
 
     from kitsune.config import settings
 
+    console.print(f"[bold]Backend:[/bold] {settings.backend} ({platform.system()})")
     console.print(f"[bold]Model:[/bold] {settings.model_name}")
-    console.print(f"[bold]MLX Server:[/bold] {settings.mlx_base_url}")
+    console.print(f"[bold]Server:[/bold] {settings.base_url}")
 
     try:
-        r = httpx.get(f"{settings.mlx_base_url}/models", timeout=3)
+        r = httpx.get(f"{settings.base_url}/models", timeout=3)
         models = [m["id"] for m in r.json().get("data", [])]
         if models:
             console.print(f"[bold]Available models:[/bold] {', '.join(models)}")
         else:
             console.print("[yellow]No models loaded[/yellow]")
     except httpx.ConnectError:
-        console.print(
-            "[red]MLX server not running. Start with:[/red]\n"
-            "  mlx_lm.server --model mlx-community/Qwen2.5-Coder-1.5B-Instruct-4bit --port 8008"
-        )
+        if settings.backend == "mlx":
+            hint = (
+                "mlx_lm.server --model mlx-community/Qwen2.5-Coder-1.5B-Instruct-4bit --port 8008"
+            )
+        else:
+            hint = "ollama serve  # then: ollama pull qwen2.5-coder:1.5b"
+        console.print(f"[red]Server not running. Start with:[/red]\n  {hint}")
 
 
 # Typer app entry point

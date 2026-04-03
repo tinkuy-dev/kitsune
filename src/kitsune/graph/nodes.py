@@ -1,7 +1,7 @@
 """Task-specific LangGraph nodes."""
 
 from kitsune.graph.state import KitsuneState
-from kitsune.inference.mlx_backend import invoke
+from kitsune.inference.backend import invoke
 from kitsune.prompts.loader import build_system_prompt
 from kitsune.prompts.templates import FALLBACK_MSG
 
