@@ -20,8 +20,6 @@ def route(state: KitsuneState) -> KitsuneState:
 
     if total_len > settings.fallback_threshold and ARCHITECTURE_PATTERNS.search(user_input):
         task_type = "fallback"
-    elif state.get("task_type") == "ask":
-        task_type = "ask"
     elif EXPLAIN_PATTERNS.search(user_input) or (not user_input.strip() and code_context):
         task_type = "explain"
     else:

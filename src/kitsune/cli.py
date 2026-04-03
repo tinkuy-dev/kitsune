@@ -95,17 +95,20 @@ def status():
     from kitsune.config import settings
 
     console.print(f"[bold]Model:[/bold] {settings.model_name}")
-    console.print(f"[bold]Ollama:[/bold] {settings.ollama_base_url}")
+    console.print(f"[bold]MLX Server:[/bold] {settings.mlx_base_url}")
 
     try:
-        r = httpx.get(f"{settings.ollama_base_url}/api/tags", timeout=3)
-        models = [m["name"] for m in r.json().get("models", [])]
+        r = httpx.get(f"{settings.mlx_base_url}/models", timeout=3)
+        models = [m["id"] for m in r.json().get("data", [])]
         if models:
             console.print(f"[bold]Available models:[/bold] {', '.join(models)}")
         else:
-            console.print("[yellow]No models loaded in Ollama[/yellow]")
+            console.print("[yellow]No models loaded[/yellow]")
     except httpx.ConnectError:
-        console.print("[red]Ollama not running. Start with: ollama serve[/red]")
+        console.print(
+            "[red]MLX server not running. Start with:[/red]\n"
+            "  mlx_lm.server --model mlx-community/Qwen2.5-Coder-1.5B-Instruct-4bit --port 8008"
+        )
 
 
 # Typer app entry point
