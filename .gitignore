@@ -21,3 +21,4 @@ tokens*.json
 .pytest_cache/
 .coverage
 htmlcov/
+.claude/worktrees/
