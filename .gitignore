@@ -22,3 +22,4 @@ tokens*.json
 .coverage
 htmlcov/
 .claude/worktrees/
+tests/benchmark/results.json
