@@ -26,7 +26,8 @@ from kitsune.rag.bm25_backend import BM25Backend
 
 mcp = FastMCP(
     "kitsune",
-    instructions="Local code assistant — explain, ask, search code using SLMs",
+    instructions="Local AI gateway — explain, ask, search code using SLMs. Zero API cost.",
+    version="0.2.1",
 )
 
 _rag = BM25Backend()
@@ -41,7 +42,7 @@ def explain_code(file_path: str) -> str:
     if not p.is_file():
         return f"Error: file not found: {p}"
 
-    code = p.read_text(encoding="utf-8", errors="replace")
+    code = p.read_text(encoding="utf-8", errors="replace")[:50000]
     state: KitsuneState = {
         "user_input": "",
         "task_type": "explain",
@@ -65,7 +66,7 @@ def ask_about_code(question: str, file_path: str = "") -> str:
     if file_path:
         p = Path(file_path).expanduser().resolve()
         if p.is_file():
-            code = p.read_text(encoding="utf-8", errors="replace")
+            code = p.read_text(encoding="utf-8", errors="replace")[:50000]
             fpath = str(p)
 
     state: KitsuneState = {
@@ -118,6 +119,29 @@ def kitsune_status() -> str:
     except Exception:
         lines.append("Server: NOT RUNNING")
     return "\n".join(lines)
+
+
+@mcp.resource("kitsune://status")
+def get_status() -> str:
+    """Kitsune gateway status — model, backend, server availability."""
+    import platform
+
+    import httpx
+
+    info = {
+        "backend": settings.backend,
+        "platform": platform.system(),
+        "model": settings.model_name,
+        "server": settings.base_url,
+        "version": "0.2.1",
+    }
+    try:
+        r = httpx.get(f"{settings.base_url}/models", timeout=3)
+        info["available_models"] = [m["id"] for m in r.json().get("data", [])]
+        info["server_running"] = True
+    except Exception:
+        info["server_running"] = False
+    return str(info)
 
 
 if __name__ == "__main__":

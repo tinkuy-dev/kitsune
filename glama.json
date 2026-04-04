@@ -1,0 +1,10 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "kitsune",
+  "description": "Local AI gateway — explain, ask, search code using SLMs. Zero API cost, private, evolving.",
+  "version": "0.2.1",
+  "tools": ["explain_code", "ask_about_code", "search_code", "kitsune_status"],
+  "transport": ["stdio"],
+  "maintainers": [{"github": "dereyesm"}],
+  "repository": "https://github.com/tinkuy-dev/kitsune"
+}
