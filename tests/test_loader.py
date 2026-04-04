@@ -9,7 +9,11 @@ def test_detect_python():
 
 def test_detect_javascript():
     assert detect_language("index.js") == "javascript"
-    assert detect_language("App.tsx") == "javascript"
+
+
+def test_detect_typescript():
+    assert detect_language("App.tsx") == "typescript"
+    assert detect_language("index.ts") == "typescript"
 
 
 def test_detect_go():

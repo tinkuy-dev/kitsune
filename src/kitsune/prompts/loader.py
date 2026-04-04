@@ -9,11 +9,16 @@ EXTENSION_MAP: dict[str, str] = {
     ".py": "python",
     ".js": "javascript",
     ".jsx": "javascript",
-    ".ts": "javascript",
-    ".tsx": "javascript",
     ".mjs": "javascript",
+    ".ts": "typescript",
+    ".tsx": "typescript",
     ".go": "go",
     ".rs": "rust",
+    ".java": "java",
+    ".cs": "csharp",
+    ".rb": "ruby",
+    ".php": "php",
+    ".swift": "swift",
 }
 
 TASK_INSTRUCTIONS = {
