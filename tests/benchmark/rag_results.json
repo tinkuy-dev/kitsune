@@ -1,0 +1,132 @@
+[
+  {
+    "backend": "BM25 (vectorless)",
+    "index_time_ms": 135,
+    "total_files": 76,
+    "total_chunks": 105,
+    "avg_search_ms": 0,
+    "precision": 0.88,
+    "hits": "7/8",
+    "queries": [
+      {
+        "query": "router task classification",
+        "description": "Find the routing logic",
+        "latency_ms": 0,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "test_router.py",
+        "top_score": 7.6924
+      },
+      {
+        "query": "system prompt skill loading",
+        "description": "Find prompt construction",
+        "latency_ms": 0,
+        "hits": 2,
+        "expected": 2,
+        "top_result": "rag_compare.py",
+        "top_score": 10.6879
+      },
+      {
+        "query": "LangGraph state graph build",
+        "description": "Find graph architecture",
+        "latency_ms": 0,
+        "hits": 1,
+        "expected": 2,
+        "top_result": "build.py",
+        "top_score": 8.6202
+      },
+      {
+        "query": "CLI explain command",
+        "description": "Find CLI entry points",
+        "latency_ms": 0,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "cli.py",
+        "top_score": 6.5096
+      },
+      {
+        "query": "inference backend OpenAI",
+        "description": "Find inference layer",
+        "latency_ms": 0,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "rag_compare.py",
+        "top_score": 7.1313
+      },
+      {
+        "query": "async fetch user data",
+        "description": "Find async patterns (semantic test)",
+        "latency_ms": 0,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "rag_compare.py",
+        "top_score": 8.6753
+      }
+    ]
+  },
+  {
+    "backend": "ChromaDB (vector)",
+    "index_time_ms": 21773,
+    "total_files": 76,
+    "total_chunks": 105,
+    "avg_search_ms": 73,
+    "precision": 0.88,
+    "hits": "7/8",
+    "queries": [
+      {
+        "query": "router task classification",
+        "description": "Find the routing logic",
+        "latency_ms": 89,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "test_router.py",
+        "top_score": 0.4759
+      },
+      {
+        "query": "system prompt skill loading",
+        "description": "Find prompt construction",
+        "latency_ms": 82,
+        "hits": 2,
+        "expected": 2,
+        "top_result": "templates.py",
+        "top_score": 0.4839
+      },
+      {
+        "query": "LangGraph state graph build",
+        "description": "Find graph architecture",
+        "latency_ms": 66,
+        "hits": 1,
+        "expected": 2,
+        "top_result": "build.py",
+        "top_score": 0.6586
+      },
+      {
+        "query": "CLI explain command",
+        "description": "Find CLI entry points",
+        "latency_ms": 67,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "cli.py",
+        "top_score": 0.4423
+      },
+      {
+        "query": "inference backend OpenAI",
+        "description": "Find inference layer",
+        "latency_ms": 71,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "backend.py",
+        "top_score": 0.5877
+      },
+      {
+        "query": "async fetch user data",
+        "description": "Find async patterns (semantic test)",
+        "latency_ms": 64,
+        "hits": 1,
+        "expected": 1,
+        "top_result": "sample_python.py",
+        "top_score": 0.4601
+      }
+    ]
+  }
+]

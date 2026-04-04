@@ -66,9 +66,9 @@ class TestExplainDoD:
 
     def test_javascript_detects_patterns(self):
         output = _run_kit("explain", str(FIXTURES / "sample_javascript.js"))
-        assert any(
-            term in output for term in ["event", "emitter", "retry", "fetch", "callback"]
-        ), f"No JS patterns found. Output:\n{output[:500]}"
+        assert any(term in output for term in ["event", "emitter", "retry", "fetch", "callback"]), (
+            f"No JS patterns found. Output:\n{output[:500]}"
+        )
 
     def test_go_detects_concurrency(self):
         output = _run_kit("explain", str(FIXTURES / "sample_go.go"))
@@ -99,9 +99,9 @@ class TestAskDoD:
         output = _run_kit(
             "ask", "what does find_active_users return?", "-f", str(FIXTURES / "sample_python.py")
         )
-        assert any(
-            term in output for term in ["list", "active", "user", "filter"]
-        ), f"Didn't answer about return value. Output:\n{output[:500]}"
+        assert any(term in output for term in ["list", "active", "user", "filter"]), (
+            f"Didn't answer about return value. Output:\n{output[:500]}"
+        )
 
     def test_references_code_names(self):
         output = _run_kit(
@@ -115,9 +115,7 @@ class TestAskDoD:
         output = _run_kit(
             "ask", "what does deactivate do?", "-f", str(FIXTURES / "sample_python.py")
         )
-        content_lines = [
-            ln for ln in output.strip().split("\n") if ln.strip() and "─" not in ln
-        ]
+        content_lines = [ln for ln in output.strip().split("\n") if ln.strip() and "─" not in ln]
         assert len(content_lines) < 25, f"Too verbose: {len(content_lines)} lines"
 
 

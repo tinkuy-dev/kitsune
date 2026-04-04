@@ -119,5 +119,69 @@ def status():
         console.print(f"[red]Server not running. Start with:[/red]\n  {hint}")
 
 
+@cli.command()
+def index(
+    directory: str = typer.Argument(".", help="Directory to index"),
+    backend: str = typer.Option("bm25", "--backend", "-b", help="bm25 or chroma"),
+):
+    """Index a codebase for RAG search."""
+    from kitsune.rag.bm25_backend import BM25Backend
+
+    if backend == "chroma":
+        from kitsune.rag.chroma_backend import ChromaBackend
+
+        rag = ChromaBackend()
+    else:
+        rag = BM25Backend()
+
+    console.print(f"Indexing [bold]{directory}[/bold] with {rag.name}...")
+    stats = rag.index(directory)
+    console.print(
+        f"[green]Done:[/green] {stats.total_files} files, "
+        f"{stats.total_chunks} chunks, {stats.index_time_ms}ms"
+    )
+
+    # Save backend for search command
+    import json
+
+    state_path = Path(".kitsune-rag.json")
+    state_path.write_text(json.dumps({"backend": backend, "directory": directory}))
+
+
+@cli.command()
+def search(
+    query: str = typer.Argument(..., help="Search query"),
+    top_k: int = typer.Option(5, "--top", "-k", help="Number of results"),
+    backend: str = typer.Option("bm25", "--backend", "-b", help="bm25 or chroma"),
+    directory: str = typer.Option(".", "--dir", "-d", help="Directory to search"),
+):
+    """Search indexed codebase for relevant code."""
+    from rich.syntax import Syntax
+
+    from kitsune.rag.bm25_backend import BM25Backend
+
+    if backend == "chroma":
+        from kitsune.rag.chroma_backend import ChromaBackend
+
+        rag = ChromaBackend()
+    else:
+        rag = BM25Backend()
+
+    # Index on the fly (BM25 is fast enough)
+    rag.index(directory)
+    results = rag.search(query, top_k=top_k)
+
+    if not results:
+        console.print("[yellow]No results found.[/yellow]")
+        return
+
+    for i, chunk in enumerate(results, 1):
+        lang = chunk.language if chunk.language != "md" else "markdown"
+        loc = f"{chunk.file_path}:{chunk.start_line}-{chunk.end_line}"
+        title = f"[{i}] {loc} (score: {chunk.score})"
+        console.print(f"\n[bold cyan]{title}[/bold cyan]")
+        console.print(Syntax(chunk.content, lang, line_numbers=True, start_line=chunk.start_line))
+
+
 # Typer app entry point
 app = cli

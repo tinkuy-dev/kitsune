@@ -15,7 +15,7 @@ import json
 import subprocess
 import sys
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 
 FIXTURES = Path(__file__).parent.parent / "fixtures"
@@ -169,7 +169,9 @@ def main():
         print(f"done ({r.latency_ms}ms)")
 
     print()
-    print(f"{'Case':<22} {'Prec':>4} {'Brev':>4} {'Use':>4} {'Avg':>5} {'Concepts':>10} {'Latency':>8}")
+    print(
+        f"{'Case':<22} {'Prec':>4} {'Brev':>4} {'Use':>4} {'Avg':>5} {'Concepts':>10} {'Latency':>8}"
+    )
     print("-" * 70)
 
     total_scores: list[float] = []
